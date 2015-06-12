@@ -1,7 +1,14 @@
 <?php
 
-function traced_boot() {
+require DRUPAL_ROOT . '/path/to/vendor/src/tracy.php';
+# use Tracy/Debugger;
 
+function traced_boot() {
+  # Debugger::enable(Debugger::DEVELOPMENT);
+}
+
+function traced_init() {
+  # Debugger::enable(Debugger::DEVELOPMENT);
 }
 
 function traced_permission() {
