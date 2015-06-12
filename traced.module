@@ -1,0 +1,13 @@
+<?php
+
+function traced_boot() {
+
+}
+
+function traced_permission() {
+
+}
+
+function traced_menu() {
+
+}

@@ -1,0 +1,3 @@
+name = Traced
+description = Integrates the Tracy PHP debugger library into Drupal.
+core = 7.x
