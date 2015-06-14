@@ -1,20 +1,40 @@
 <?php
 
-require DRUPAL_ROOT . '/path/to/vendor/src/tracy.php';
-# use Tracy/Debugger;
+require DRUPAL_ROOT . '/sites/all/libraries/composer/tracy/tracy/src/tracy.php';
+use Tracy\Debugger;
 
-function traced_boot() {
-  # Debugger::enable(Debugger::DEVELOPMENT);
-}
-
+/**
+ * Implements hook_init().
+ */
 function traced_init() {
-  # Debugger::enable(Debugger::DEVELOPMENT);
+  if (user_access('admin')) {
+    Debugger::enable(Debugger::DEVELOPMENT);
+  }
 }
 
+/**
+ * Implements hook_permission().
+ */
 function traced_permission() {
 
 }
 
+/**
+ * Implements hook_menu().
+ * @return array
+ */
 function traced_menu() {
+  $items = array();
 
+  return $items;
+}
+
+/**
+ * Implements hook_watchdog().
+ * @param $variables
+ */
+function traced_watchdog(&$variables) {
+  if (variable_get('traced_watchdog_active', FALSE)) {
+    Debugger::fireLog($variables['message']);
+  }
 }
