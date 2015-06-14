@@ -7,7 +7,7 @@ use Tracy\Debugger;
  * Implements hook_init().
  */
 function traced_init() {
-  if (user_access('admin')) {
+  if (variable_get('traced_enabled', FALSE) && user_access('access traced debugger')) {
     Debugger::enable(Debugger::DEVELOPMENT);
   }
 }
@@ -16,7 +16,16 @@ function traced_init() {
  * Implements hook_permission().
  */
 function traced_permission() {
-
+  return array(
+    'administer traced' => array(
+      'title' => t('Administer Traced'),
+      'description' => t('Allows access to configure settings for Traced.'),
+    ),
+    'access traced debugger' => array(
+      'title' => t('Access Traced Debugger'),
+      'description' => t('Allows access to the debugger itself.'),
+    ),
+  );
 }
 
 /**
@@ -26,6 +35,15 @@ function traced_permission() {
 function traced_menu() {
   $items = array();
 
+  $items['admin/config/development/traced'] = array(
+    'title' => 'Traced',
+    'description' => 'Configure settings for the Traced module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('traced_admin_settings_form'),
+    'access arguments' => array('administer traced'),
+    'file' => 'includes/admin.inc',
+  );
+
   return $items;
 }
 
@@ -33,8 +51,8 @@ function traced_menu() {
  * Implements hook_watchdog().
  * @param $variables
  */
-function traced_watchdog(&$variables) {
+function traced_watchdog(array $log_entry) {
   if (variable_get('traced_watchdog_active', FALSE)) {
-    Debugger::fireLog($variables['message']);
+    Debugger::fireLog($log_entry['message']);
   }
 }
