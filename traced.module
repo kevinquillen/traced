@@ -8,7 +8,21 @@ use Tracy\Debugger;
  */
 function traced_init() {
   if (variable_get('traced_enabled', FALSE) && user_access('access traced debugger')) {
-    Debugger::enable(Debugger::DEVELOPMENT);
+    $mode = variable_get('traced_mode', 'DEVELOPMENT');
+
+    switch ($mode) {
+      case 'DEVELOPMENT':
+        Debugger::enable(Debugger::DEVELOPMENT);
+        break;
+      case 'PRODUCTION':
+        Debugger::enable(Debugger::PRODUCTION);
+        break;
+      default:
+        Debugger::enable(Debugger::DETECT);
+        break;
+    }
+
+    Debugger::$strictMode = variable_get('traced_strict_mode', FALSE);
   }
 }
 
@@ -52,7 +66,7 @@ function traced_menu() {
  * @param $variables
  */
 function traced_watchdog(array $log_entry) {
-  if (variable_get('traced_watchdog_active', FALSE)) {
-    Debugger::fireLog($log_entry['message']);
+  if (user_access('access traced debugger') && variable_get('traced_enabled', FALSE) && variable_get('traced_watchdog_active', FALSE)) {
+    Debugger::fireLog($log_entry);
   }
 }
