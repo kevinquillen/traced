@@ -1,6 +1,5 @@
 <?php
 
-require DRUPAL_ROOT . '/sites/all/libraries/composer/tracy/tracy/src/tracy.php';
 use Tracy\Debugger;
 
 /**
