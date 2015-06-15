@@ -62,6 +62,16 @@ function traced_menu() {
 }
 
 /**
+ * Provides access checks to Tracy via Drupal. Call this function to only show console logging to users with access.
+ * @param $message
+ */
+function traced_log($message) {
+  if (user_access('access traced debugger') && variable_get('traced_enabled', FALSE)) {
+    Debugger::fireLog($message);
+  }
+}
+
+/**
  * Implements hook_watchdog().
  * @param $log_entry
  */
