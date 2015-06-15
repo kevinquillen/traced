@@ -63,7 +63,7 @@ function traced_menu() {
 
 /**
  * Implements hook_watchdog().
- * @param $variables
+ * @param $log_entry
  */
 function traced_watchdog(array $log_entry) {
   if (user_access('access traced debugger') && variable_get('traced_enabled', FALSE) && variable_get('traced_watchdog_active', FALSE)) {
