@@ -21,7 +21,7 @@ function traced_init() {
         break;
     }
 
-    Debugger::$strictMode = variable_get('traced_strict_mode', FALSE);
+    Debugger::$strictMode = (bool) variable_get('traced_strict_mode', FALSE);
   }
 }
 
